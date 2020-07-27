@@ -29,7 +29,7 @@ namespace CDACore.WebApi.Controllers
         }
 
         [HttpPost("withdraw")]
-        public IActionResult Withdraw(WithdrawRequest withdrawRequest)
+        public ActionResult<HttpMessage> Withdraw(WithdrawRequest withdrawRequest)
         {
             var result = repository.Withdraw(withdrawRequest.UserId, withdrawRequest.Total).Result;
             return Ok(result);
@@ -40,6 +40,13 @@ namespace CDACore.WebApi.Controllers
         {
             var result = repository.Deposit(withdrawRequest.UserId, withdrawRequest.Total).Result;
             return Ok(result);
+        }
+
+        [HttpGet("authenticate/{id}")]
+        public IActionResult Authenticate(int id)
+        {
+            var user = repository.Authenticate(id).Result;
+            return Ok(user);
         }
     }
 }

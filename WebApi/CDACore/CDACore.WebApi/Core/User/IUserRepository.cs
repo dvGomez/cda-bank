@@ -9,9 +9,10 @@ namespace CDACore.WebApi.Core
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<Object> TransferMoney(int fromId, int toId, double amount);
-        Task<Object> Withdraw(int userId, double amount);
-        Task<Object> Deposit(int userId, double amount);
+        Task<User> Authenticate(int userId);
+        Task<HttpMessage> TransferMoney(int fromId, int toId, double amount);
+        Task<HttpMessage> Withdraw(int userId, double amount);
+        Task<HttpMessage> Deposit(int userId, double amount);
 
     }
 }

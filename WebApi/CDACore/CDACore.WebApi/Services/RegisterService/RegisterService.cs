@@ -16,5 +16,10 @@ namespace CDACore.WebApi.Services.UserService
 
         }
 
+        public async Task<List<Register>> Extrato(int userId)
+        {
+            List<Register> list = GetAll().Result.FindAll(e => e.UserId == userId || e.TransferUser == userId);
+            return list;
+        }
     }
 }

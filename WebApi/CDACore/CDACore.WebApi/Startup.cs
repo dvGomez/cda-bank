@@ -36,11 +36,27 @@ namespace CDACore.WebApi
             services.AddScoped<IUserRepository, UserService>();
             services.AddScoped<IRegisterRepository, RegisterService>();
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.Use(async (ctx, next) =>
+            {
+                await next();
+                if (ctx.Response.StatusCode == 204)
+                {
+                    ctx.Response.ContentLength = 0;
+                }
+            });
+            app.UseCors("MyPolicy");
             app.UseMvc();
         }
     }

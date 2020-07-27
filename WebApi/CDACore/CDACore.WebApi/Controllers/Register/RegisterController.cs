@@ -20,5 +20,12 @@ namespace CDACore.WebApi.Controllers
         {
             this.repository = repository;
         }
+
+        [HttpGet("extrato/{id}")]
+        public IActionResult Extrato(int id)
+        {
+            var result = repository.Extrato(id).Result;
+            return Ok(result);
+        }
     }
 }

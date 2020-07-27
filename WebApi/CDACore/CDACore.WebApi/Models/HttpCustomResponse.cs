@@ -7,14 +7,25 @@ namespace CDACore.WebApi.Models
 {
     public class HttpCustomResponse
     {
-        public static Object Message(string msg)
+        public static HttpMessage Message(string msg)
         {
-            return new { message = msg };
+            return new HttpMessage(msg);
         }
 
-        public static Object NotFound()
+        public static HttpMessage NotFound()
         {
-            return new { message = "No result was found." };
+            return new HttpMessage("No result was found");
         }
+    }
+
+    public class HttpMessage
+    {
+
+        public HttpMessage(string msg)
+        {
+            this.Message = msg;
+        }
+
+        public string Message { get; set; }
     }
 }

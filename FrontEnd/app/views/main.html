@@ -1,0 +1,150 @@
+<div class="row">
+  <div class="col-12 py-5">
+    <h4>Dashboard</h4>
+    <p class="text-gray">Welcome aboard, {{user.nome}}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 equel-grid">
+    <div class="grid">
+      <div class="grid-body text-gray text-center">
+        <div class="">
+          <h4 class="text-center text-primary">R$ {{user.saldo}}</h4>
+          <!-- <p>+06.2%</p> -->
+        </div>
+        <p class="text-black mt-3">Saldo Atual</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-12 text-center">
+  <button type="button" class="m-1 btn btn-primary" data-toggle="modal" data-target="#sacarModal">Saque</button>
+  <button type="button" class="m-1 btn btn-primary" data-toggle="modal" data-target="#depositoModal">Deposito</button>
+  <button type="button" class="m-1 btn btn-primary" data-toggle="modal" data-target="#transferenciaModal">Transferência</button>
+</div>
+
+<div class="col-12 mt-4 equel-grid">
+  <div class="grid">
+    <div class="grid-body">
+      <div class="split-header">
+        <p class="card-title">Extrato</p>
+        <div class="btn-group">
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="#">View all</a>
+          </div>
+        </div>
+      </div>
+      <div class="vertical-timeline-wrapper">
+        <div class="timeline-vertical dashboard-timeline">
+          <div class="activity-log" ng-repeat="extrato in extratos">
+            <p class="log-name">
+              {{extrato.type}}
+              <span class="text-warning" ng-if="extrato.type == 'Transfer' && extrato.transferUser != user.id"> - R${{extrato.total}}</span>
+              <span class="text-success" ng-if="extrato.type == 'Transfer' && extrato.transferUser == user.id"> + R${{extrato.total}}</span>
+              <span class="text-warning" ng-if="extrato.type == 'Withdraw'"> - R${{extrato.total}}</span>
+              <span class="text-success" ng-if="extrato.type == 'Deposit'"> + R${{extrato.total}}</span>
+            </p>
+            <div ng-if="extrato.type == 'Transfer' && extrato.transferUser == user.id" class="log-details">Você recebeu <span class="text-primary ml-1">+ R${{extrato.total}}</span>
+              do jogador <span class="text-primary ml-1">{{extrato.userId}}</span></div>
+            <div ng-if="extrato.type == 'Transfer' && extrato.transferUser != user.id" class="log-details">Você transferiu <span class="text-warning ml-1"> R${{extrato.total}}</span>
+              para o jogador <span class="text-primary ml-1">{{extrato.userId}}</span></div>
+            <small class="log-time">{{timeSince(extrato.registerDate)}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="border-top px-3 py-2 d-block text-gray" href="#">
+      <small class="font-weight-medium"><i class="mdi mdi-chevron-down mr-2"></i> View All </small>
+    </a>
+  </div>
+</div>
+
+
+<div class="modal  fade" id="sacarModal" tabindex="-1" role="dialog" aria-labelledby="sacarModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-12 equel-grid">
+          <div class="grid">
+            <p class="grid-header">Saque</p>
+            <div class="grid-body">
+              <div class="table-responsive">
+                <form>
+                  <div class="form-group">
+                    <label for="inputName">Valor</label>
+                    <input type="number" class="form-control" id="inputName" placeholder="Informe o valor"
+                      ng-model="saque.Total">
+                  </div>
+                  <button type="submit" class="btn btn-sm btn-primary float-right" ng-click="sacar()"
+                    data-dismiss="modal">Sacar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal  fade" id="depositoModal" tabindex="-1" role="dialog" aria-labelledby="depositoModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-12 equel-grid">
+          <div class="grid">
+            <p class="grid-header">Depósito</p>
+            <div class="grid-body">
+              <div class="table-responsive">
+                <form>
+                  <div class="form-group">
+                    <label for="inputName">Valor</label>
+                    <input type="number" class="form-control" id="inputName" placeholder="Informe o valor"
+                      ng-model="deposito.Total">
+                  </div>
+                  <button type="submit" class="btn btn-sm btn-primary float-right" ng-click="depositar()"
+                    data-dismiss="modal">Depositar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal  fade" id="transferenciaModal" tabindex="-1" role="dialog" aria-labelledby="transferenciaModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-12 equel-grid">
+          <div class="grid">
+            <p class="grid-header">Transferir</p>
+            <div class="grid-body">
+              <div class="table-responsive">
+                <form>
+                  <div class="form-group">
+                    <label for="inputName">ID do jogador</label>
+                    <input type="number" class="form-control" id="inputName" placeholder="ID do jogador"
+                      ng-model="transferencia.ToUserId">
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName">Valor</label>
+                    <input type="number" class="form-control" id="inputName" placeholder="Informe o valor"
+                      ng-model="transferencia.Total">
+                  </div>
+                  <button type="submit" class="btn btn-sm btn-primary float-right" ng-click="transferir()"
+                    data-dismiss="modal">Depositar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

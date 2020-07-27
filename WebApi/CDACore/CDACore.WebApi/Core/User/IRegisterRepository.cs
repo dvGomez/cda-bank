@@ -9,5 +9,6 @@ namespace CDACore.WebApi.Core
 {
     public interface IRegisterRepository : IRepository<Register>
     {
+        Task<List<Register>> Extrato(int userId);
     }
 }

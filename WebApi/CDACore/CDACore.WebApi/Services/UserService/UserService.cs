@@ -18,7 +18,7 @@ namespace CDACore.WebApi.Services.UserService
             this.registerRepository = registerRepository;
         }
 
-        public async Task<object> TransferMoney(int fromId, int toId, double amount)
+        public async Task<HttpMessage> TransferMoney(int fromId, int toId, double amount)
         {
             User fromUser = Get(fromId).Result;
             User toUser = Get(toId).Result;
@@ -47,7 +47,7 @@ namespace CDACore.WebApi.Services.UserService
             return HttpCustomResponse.Message("Success");
         }
 
-        public async Task<object> Withdraw(int userId, double amount)
+        public async Task<HttpMessage> Withdraw(int userId, double amount)
         {
             User user = Get(userId).Result;
             if (user == null) { return HttpCustomResponse.Message("Not possible to find user account."); }
@@ -67,7 +67,7 @@ namespace CDACore.WebApi.Services.UserService
             return HttpCustomResponse.Message("Success");
         }
 
-        public async Task<object> Deposit(int userId, double amount)
+        public async Task<HttpMessage> Deposit(int userId, double amount)
         {
             User user = Get(userId).Result;
             if (user == null) { return HttpCustomResponse.Message("Not possible to find user account."); }
@@ -85,6 +85,18 @@ namespace CDACore.WebApi.Services.UserService
             });
 
             return HttpCustomResponse.Message("Success");
+        }
+
+        public async Task<User> Authenticate(int userId)
+        {
+            User user = Get(userId).Result;
+            if (user == null)
+            {
+                await Create(new User() { Nome = "CDA User " + userId });
+                user = Get(userId).Result;
+                //return user;
+            }
+            return user;
         }
     }
 }
