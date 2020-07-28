@@ -62,4 +62,17 @@
 
 O front foi construído para fins de visualização dos dados, realizar saques, depósitos e transferências.
 
+**Instalação**:
+- npm install
+- bower install
+- grunt serve
+
+> A configuração do endpoint deve ser alterada no arquivo `Gruntfile.js`, conforme abaixo:
+
+    constants: {
+      ENVIROMENT: {
+        apiEndpoint: 'http://localhost:50542/api'
+      }
+    }
+
 > Para realizar o build do sistema utilize `grunt heroku`
