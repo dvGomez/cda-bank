@@ -4,7 +4,7 @@
 ![enter image description here](https://i.imgur.com/lvyxXWP.png)
 
 
-> Essa aplicação foi desenvolvida como parte do programa de recrutamento para o Cidade Alta e a utilização do código é livre para estudos.
+> Essa aplicação foi desenvolvida como parte do programa de recrutamento para a equipe de desenvolvimento do Cidade Alta e a utilização do código é livre para estudos.
 
 ## Tecnologias Utilizadas
 
